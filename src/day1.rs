@@ -1,8 +1,8 @@
 use std::fs;
 
 fn read_calories() -> Vec<i32> {
-    let contents = fs::read_to_string("input/day1.txt").unwrap();
-    contents
+    fs::read_to_string("input/day1.txt")
+        .unwrap()
         .split("\n\n")
         .map(|lines| {
             lines
@@ -16,12 +16,12 @@ fn read_calories() -> Vec<i32> {
 pub fn part1() {
     let calories = read_calories();
     let answer = calories.iter().max().unwrap();
-    println!("{:?}", answer);
+    println!("{}", answer);
 }
 
 pub fn part2() {
     let mut calories = read_calories();
     calories.sort_by(|a, b| b.cmp(a));
     let answer = calories.iter().take(3).sum::<i32>();
-    println!("{:?}", answer);
+    println!("{}", answer);
 }
