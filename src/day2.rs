@@ -7,7 +7,6 @@ enum Hand {
     Scissors,
 }
 
-#[derive(Clone, Copy)]
 enum Strategy {
     X,
     Y,
@@ -22,7 +21,7 @@ struct Round {
 fn read_rounds() -> Vec<(Hand, Strategy)> {
     fs::read_to_string("input/day2.txt")
         .unwrap()
-        .split_terminator('\n')
+        .lines()
         .map(|line| {
             let (them, me) = line.split_once(' ').unwrap();
             let them = match them {
@@ -42,7 +41,7 @@ fn read_rounds() -> Vec<(Hand, Strategy)> {
         .collect()
 }
 
-fn get_score(round: Round) -> i32 {
+fn get_score(round: Round) -> u32 {
     let shape = match round.me {
         Hand::Rock => 1,
         Hand::Paper => 2,
@@ -101,7 +100,7 @@ fn do_part(strategy_to_hand: fn(&(Hand, Strategy)) -> Hand) {
             me: strategy_to_hand(round),
         })
         .map(get_score)
-        .sum::<i32>();
+        .sum::<u32>();
     println!("{}", answer);
 }
 
