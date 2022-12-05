@@ -17,14 +17,11 @@ fn count_assignments(predicate: fn((u32, u32), (u32, u32)) -> bool) -> usize {
 }
 
 pub fn part1() -> usize {
-    count_assignments(|(first_start, first_end), (second_start, second_end)| {
-        (first_start <= second_start && first_end >= second_end)
-            || (second_start <= first_start && second_end >= first_end)
+    count_assignments(|first, second| {
+        (first.0 <= second.0 && first.1 >= second.1) || (second.0 <= first.0 && second.1 >= first.1)
     })
 }
 
 pub fn part2() -> usize {
-    count_assignments(|(first_start, first_end), (second_start, second_end)| {
-        first_end >= second_start && second_end >= first_start
-    })
+    count_assignments(|first, second| first.1 >= second.0 && second.1 >= first.0)
 }
