@@ -16,17 +16,15 @@ fn count_assignments(predicate: fn((u32, u32), (u32, u32)) -> bool) -> usize {
         .count()
 }
 
-pub fn part1() {
-    let answer = count_assignments(|(first_start, first_end), (second_start, second_end)| {
+pub fn part1() -> usize {
+    count_assignments(|(first_start, first_end), (second_start, second_end)| {
         (first_start <= second_start && first_end >= second_end)
             || (second_start <= first_start && second_end >= first_end)
-    });
-    println!("{:?}", answer);
+    })
 }
 
-pub fn part2() {
-    let answer = count_assignments(|(first_start, first_end), (second_start, second_end)| {
+pub fn part2() -> usize {
+    count_assignments(|(first_start, first_end), (second_start, second_end)| {
         first_end >= second_start && second_end >= first_start
-    });
-    println!("{:?}", answer);
+    })
 }

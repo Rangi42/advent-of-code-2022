@@ -91,20 +91,19 @@ fn get_score(round: Round) -> u32 {
     shape + outcome
 }
 
-fn do_part(strategy_to_hand: fn(&(Hand, Strategy)) -> Hand) {
+fn do_part(strategy_to_hand: fn(&(Hand, Strategy)) -> Hand) -> u32 {
     let rounds = read_rounds();
-    let answer = rounds
+    rounds
         .iter()
         .map(|round| Round {
             them: round.0,
             me: strategy_to_hand(round),
         })
         .map(get_score)
-        .sum::<u32>();
-    println!("{}", answer);
+        .sum()
 }
 
-pub fn part1() {
+pub fn part1() -> u32 {
     do_part(|round| match round.1 {
         Strategy::X => Hand::Rock,
         Strategy::Y => Hand::Paper,
@@ -112,7 +111,7 @@ pub fn part1() {
     })
 }
 
-pub fn part2() {
+pub fn part2() -> u32 {
     do_part(|round| match round {
         // lose
         (Hand::Rock, Strategy::X) => Hand::Scissors,

@@ -10,21 +10,20 @@ fn priority(c: char) -> u32 {
     }
 }
 
-pub fn part1() {
-    let answer = fs::read_to_string("input/day3.txt")
+pub fn part1() -> u32 {
+    fs::read_to_string("input/day3.txt")
         .unwrap()
         .lines()
         .map(|line| {
             let (left, right) = line.split_at(line.len() / 2);
             let left: HashSet<char> = left.chars().collect();
-            priority(right.chars().filter(|c| left.contains(c)).next().unwrap())
+            priority(right.chars().find(|c| left.contains(c)).unwrap())
         })
-        .sum::<u32>();
-    println!("{:?}", answer);
+        .sum()
 }
 
-pub fn part2() {
-    let answer = fs::read_to_string("input/day3.txt")
+pub fn part2() -> u32 {
+    fs::read_to_string("input/day3.txt")
         .unwrap()
         .lines()
         .tuples() // from itertools
@@ -34,11 +33,9 @@ pub fn part2() {
             priority(
                 third
                     .chars()
-                    .filter(|c| first.contains(c) && second.contains(c))
-                    .next()
+                    .find(|c| first.contains(c) && second.contains(c))
                     .unwrap(),
             )
         })
-        .sum::<u32>();
-    println!("{:?}", answer);
+        .sum()
 }

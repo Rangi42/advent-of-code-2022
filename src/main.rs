@@ -4,12 +4,16 @@ mod day3;
 mod day4;
 
 fn main() {
-    day1::part1();
-    day1::part2();
-    day2::part1();
-    day2::part2();
-    day3::part1();
-    day3::part2();
-    day4::part1();
-    day4::part2();
+    println!("Day 1:");
+    println!("{}", day1::part1());
+    println!("{}", day1::part2());
+    println!("Day 2:");
+    println!("{}", day2::part1());
+    println!("{}", day2::part2());
+    println!("Day 3:");
+    println!("{}", day3::part1());
+    println!("{}", day3::part2());
+    println!("Day 4:");
+    println!("{}", day4::part1());
+    println!("{}", day4::part2());
 }
