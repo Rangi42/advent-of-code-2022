@@ -17,15 +17,16 @@ fn simulate(knots: usize) -> usize {
         .lines()
         .map(|line| {
             let (dir, num) = line.split_once(' ').unwrap();
-            let dir = match dir {
-                "U" => Dir::U,
-                "D" => Dir::D,
-                "L" => Dir::L,
-                "R" => Dir::R,
-                _ => unreachable!(),
-            };
-            let num = num.parse::<u32>().unwrap();
-            (dir, num)
+            (
+                match dir {
+                    "U" => Dir::U,
+                    "D" => Dir::D,
+                    "L" => Dir::L,
+                    "R" => Dir::R,
+                    _ => unreachable!(),
+                },
+                num.parse::<u32>().unwrap(),
+            )
         })
     {
         for _ in 0..num {
@@ -36,46 +37,29 @@ fn simulate(knots: usize) -> usize {
                 Dir::D => rope[0].1 += 1,
             }
             for i in 1..knots {
-                let delta = (rope[i - 1].0 - rope[i].0, rope[i - 1].1 - rope[i].1);
-                let tail = &mut rope[i];
-                match delta {
-                    (-2, 0) => {
-                        tail.0 -= 1;
-                    }
-                    (2, 0) => {
-                        tail.0 += 1;
-                    }
-                    (0, -2) => {
-                        tail.1 -= 1;
-                    }
-                    (0, 2) => {
-                        tail.1 += 1;
-                    }
-                    (-2, -1) | (-1, -2) | (-2, -2) => {
+                let (head, tail) = (rope[i - 1], &mut rope[i]);
+                match (head.0 - tail.0, head.1 - tail.1) {
+                    (-1 | 0 | 1, -1 | 0 | 1) => (),
+                    (-2, 0) => tail.0 -= 1,
+                    (2, 0) => tail.0 += 1,
+                    (0, -2) => tail.1 -= 1,
+                    (0, 2) => tail.1 += 1,
+                    (-1 | -2, -1 | -2) => {
                         tail.0 -= 1;
                         tail.1 -= 1;
                     }
-                    (-2, 1) | (-1, 2) | (-2, 2) => {
+                    (-1 | -2, 1 | 2) => {
                         tail.0 -= 1;
                         tail.1 += 1;
                     }
-                    (2, -1) | (1, -2) | (2, -2) => {
+                    (1 | 2, -1 | -2) => {
                         tail.0 += 1;
                         tail.1 -= 1;
                     }
-                    (2, 1) | (1, 2) | (2, 2) => {
+                    (1 | 2, 1 | 2) => {
                         tail.0 += 1;
                         tail.1 += 1;
                     }
-                    (-1, -1)
-                    | (-1, 0)
-                    | (-1, 1)
-                    | (0, -1)
-                    | (0, 0)
-                    | (0, 1)
-                    | (1, -1)
-                    | (1, 0)
-                    | (1, 1) => (),
                     _ => unreachable!(),
                 }
             }
